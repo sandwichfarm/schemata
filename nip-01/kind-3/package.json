@@ -10,8 +10,6 @@
     "quicktype-core": "23.0.170",
     "yaml": "2.4.5",
     "json-loader": "0.5.7",
-    "ts-loader": "9.5.1",
-    "typescript": "5.5.4",
     "webpack": "5.93.0",
     "webpack-cli": "5.1.4",
     "webpack-merge": "6.0.1",
@@ -27,16 +25,22 @@
     "yaml-loader": "0.8.1"
   },
   "scripts": {
-    "qt": "yarn convert && yarn qt:types && yarn qt:ts && yarn qt:flow && yarn qt:zod",
-    "qt:types": "quicktype --src dist/schema.json -o src/types.ts --src-lang schema --just-types",
-    "qt:ts": "quicktype -s schema ./dist/schema.json -o src/serialize.ts --lang ts",
-    "qt:flow": "quicktype -s schema ./dist/schema.json -o ./packages/flow/src/index.ts --lang flow",
-    "qt:zod": "quicktype -s schema ./dist/schema.json -o ./packages/zod/src/index.ts --lang typescript-zod",
-    "clean": "rimraf dist/**/*",
+    "clean": "git clean -df",
     "build": "yarn clean && yarn convert && yarn json-schema && yarn qt && tsc && webpack --config webpack.config.mjs",
+
     "convert": "yaml convert:note && yaml convert:content",
     "convert:note": "yaml-convert --input src/schema.yaml --output dist/schema.json",
     "convert:content": "yaml-convert --input src/schema.content.yaml --output dist/schema.content.json",
+
+    "qt": "yarn convert && yarn qt:types && yarn qt:ts && yarn qt:flow && yarn qt:zod",
+    "qt:rust": "quicktype --src dist/schema.json -o ./packages/kind-3.rs --lang rust",
+    "qt:python": "quicktype --src dist/schema.json -o ./packages/kind-3.py --lang python",
+    "qt:swift": "quicktype --src dist/schema.json -o ./packages/kind-3.swift --lang swift",
+    "qt:types": "quicktype --src dist/schema.json -o ./packages/kind-3.types.ts --src-lang schema --just-types",
+    "qt:ts": "quicktype -s schema ./dist/schema.json -o ./packages/kind-3.ts --lang ts",
+    "qt:flow": "quicktype -s schema ./dist/schema.json -o ./packages/kind-3.flow.ts --lang flow",
+    "qt:zod": "quicktype -s schema ./dist/schema.json -o ./packages/kind-3.zod.ts --lang typescript-zod",
+
     "test": "vitest",
     "docs": "typedoc"
   },
