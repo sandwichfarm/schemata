@@ -1,0 +1,62 @@
+{
+  "name": "@nostrability/schemata-nip01-kind3",
+  "version": "0.0.1",
+  "main": "dist/bundle.js",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "8.17.1",
+    "quicktype": "23.0.170",
+    "quicktype-core": "23.0.170",
+    "yaml": "2.4.5",
+    "json-loader": "0.5.7",
+    "webpack": "5.93.0",
+    "webpack-cli": "5.1.4",
+    "webpack-merge": "6.0.1",
+    "webpack-node-externals": "3.0.0",
+    "yaml-convert": "1.0.1"
+  },
+  "devDependencies": {
+    "ts-loader": "^9.2.6",
+    "typedoc": "^0.22.15",
+    "typescript": "^4.5.2",
+    "vitest": "^0.20.2",
+    "yaml-convert": "1.0.1",
+    "yaml-loader": "0.8.1"
+  },
+  "scripts": {
+    "clean": "git clean -df",
+    "build": "yarn clean && yarn convert",
+    "build:all": "yarn build && yarn packages",
+    "build:test": "yarn build && yarn test",
+
+    "convert": "yarn convert:note && yarn convert:content",
+    "convert:note": "yaml-convert -i src/schema.yaml -o dist/schema.json",
+    "convert:content": "yaml-convert -i src/schema.content.yaml -o dist/schema.content.json",
+
+    "packages": "yarn qt && yarn qt2",
+    
+    "qt": "yarn convert && yarn qt:rust && yarn qt:python && yarn qt:swift && yarn qt:kotlin && yarn qt:java && yarn qt:ts && yarn qt:js",
+    "qt:swift": "quicktype --src ./dist/schema.json -o ./dist/kind-3.swift --src-lang schema --lang swift",
+    "qt:kotlin": "quicktype --src ./dist/schema.json -o ./dist/kind-3.kt --src-lang schema --lang kotlin",
+    "qt:java": "quicktype -s schema ./dist/schema.json -o ./dist/kind-3.java --src-lang schema --lang java",
+    "qt:rust": "quicktype --src dist/schema.json -o ./dist/kind-3.rs --src-lang schema --lang rust",
+    "qt:python": "quicktype --src dist/schema.json -o ./dist/kind-3.py --src-lang schema --lang python",
+    "qt:ts": "quicktype -s schema ./dist/schema.json -o ./dist/kind-3.ts --src-lang schema --lang ts",
+    "qt:js": "quicktype -s schema ./dist/schema.json -o ./dist/kind-3.js --src-lang schema --lang js",
+
+    "qt2": "yarn convert && yarn qt2:rust && yarn qt2:python && yarn qt2:swift && yarn qt2:kotlin && yarn qt2:java && yarn qt2:ts && yarn qt2:js",
+    "qt2:swift": "quicktype --src ./dist/schema.content.json -o ./dist/kind-3.content.swift --src-lang schema --lang swift",
+    "qt2:kotlin": "quicktype --src ./dist/schema.content.json -o ./dist/kind-3.content.kt --src-lang schema --lang kotlin",
+    "qt2:java": "quicktype -s schema ./dist/schema.content.json -o ./dist/kind-3.content.java --src-lang schema --lang java",
+    "qt2:rust": "quicktype --src dist/schema.content.json -o ./dist/kind-3.content.rs --src-lang schema --lang rust",
+    "qt2:python": "quicktype --src dist/schema.content.json -o ./dist/kind-3.content.py --src-lang schema --lang python",
+    "qt2:ts": "quicktype -s schema ./dist/schema.content.json -o ./dist/kind-3.content.ts --src-lang schema --lang ts",
+    "qt2:js": "quicktype -s schema ./dist/schema.content.json -o ./dist/kind-3.content.js --src-lang schema --lang js",
+
+    "test": "node test.js",
+    "docs": "typedoc"
+  },
+  "peerDependencies": {
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,0 +1,10 @@
+
+dist/*
+**/dist/*
+!**/dist
+
+**/node_modules
+**/packages/**/*.ts
+**/src/serialize.ts
+**/src/types.ts
+**/*.code-workspace
