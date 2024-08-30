@@ -1,0 +1,14 @@
+---
+$schema: http://json-schema.org/draft-04/schema#
+type: object
+patternProperties: "^(wss://|ws://).*$":
+  type: object 
+  properties:
+    write: 
+      type: boolean
+    read:
+    type: boolean
+  required:
+    - write
+    - read
+additionalProperties: false

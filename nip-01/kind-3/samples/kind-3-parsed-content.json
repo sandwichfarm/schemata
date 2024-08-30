@@ -1,0 +1,34 @@
+{
+  "wss://nos.lol":{
+     "write":true,
+     "read":true
+  },
+  "wss://relay.damus.io":{
+     "write":true,
+     "read":true
+  },
+  "wss://brb.io":{
+     "write":true,
+     "read":true
+  },
+  "wss://offchain.pub":{
+     "write":true,
+     "read":true
+  },
+  "wss://relay.current.fyi":{
+     "write":true,
+     "read":true
+  },
+  "wss://eden.nostr.land":{
+     "write":true,
+     "read":true
+  },
+  "wss://nostr.wine":{
+     "write":true,
+     "read":true
+  },
+  "wss://relay.snort.social":{
+     "write":true,
+     "read":true
+  }
+}
