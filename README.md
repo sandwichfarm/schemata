@@ -1,10 +1,4 @@
 # schemata
 JSON validator failfast test
 
-```
-yarn install
-yarn build:test
-
-#build a bunch of serializers
-yarn build:all
-```
+See [`nip-01/kind-3`](./nip-01/kind-3/)

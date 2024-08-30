@@ -1,18 +1,9 @@
-# @nostrwatch/nip11
-
-A `JSON-SCHEMA` for the `NIP-11` standard that includes code generation. Generates packages for [zod](./packages/zod) and [Flow](./packages/flow/) as a bonus. 
-
-# Install
+# NIP-01/kind-3
 
 ```
-npm install @nostrwatch/nip11
-pnpm install @nostrwatch/nip11
-yarn add @nostrwatch/nip11
-```
+yarn install
+yarn build:test
 
-# Usage 
-```
-import Nip11 from "@nostrwatch/nip11"
-
-nip11Json = { ... }
+#build a bunch of serializers
+yarn build:all
 ```
