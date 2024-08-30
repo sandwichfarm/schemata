@@ -1,8 +1,8 @@
-import Ajv from 'ajv';
-import fs from 'fs';
-import path from 'path';
+const Ajv2020 = require("ajv");
+const fs = require('fs');
+const path = require('path');
 
-const ajv = new Ajv({ allErrors: true });
+const ajv = new Ajv2020({ allErrors: true });
 
 function readJsonFile(filePath) {
   try {
@@ -17,17 +17,37 @@ function readJsonFile(filePath) {
 
 const kind3Schema = readJsonFile('./dist/schema.json');
 const kind3SchemaContent = readJsonFile('./dist/schema.content.json');
-const event = readJsonFile('samples/1.json');
 
-const eventValid = ajv.validate(kind3Schema, event);
-if (!eventValid) {
+const event1 = readJsonFile('samples/valid.json');
+const content1 = JSON.parse(event1.content)
+
+const event1Valid = ajv.validate(kind3Schema, event1);
+if (!event1Valid) {
   console.error('Event validation errors:', ajv.errors);
 } else {
   console.log('Event is valid');
 }
 
-const eventContentValid = ajv.validate(kind3SchemaContent, event.content);
-if (!eventContentValid) {
+const event1ContentValid = ajv.validate(kind3SchemaContent, content1);
+if (!event1ContentValid) {
+  console.error('Event content validation errors:', ajv.errors);
+} else {
+  console.log('Event content is valid');
+}
+
+
+const event2 = readJsonFile('samples/invalid.json');
+const content2 = JSON.parse(event2.content)
+
+const event2Valid = ajv.validate(kind3Schema, event2);
+if (!event2Valid) {
+  console.error('Event validation errors:', ajv.errors);
+} else {
+  console.log('Event is valid');
+}
+
+const event2ContentValid = ajv.validate(kind3SchemaContent, content2);
+if (!event2ContentValid) {
   console.error('Event content validation errors:', ajv.errors);
 } else {
   console.log('Event content is valid');

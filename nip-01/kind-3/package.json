@@ -1,6 +1,5 @@
 {
   "name": "@nostrability/schemata-nip01-kind3",
-  "type": "module",
   "version": "0.0.1",
   "main": "dist/bundle.js",
   "license": "MIT",

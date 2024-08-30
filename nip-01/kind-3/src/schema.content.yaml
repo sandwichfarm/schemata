@@ -1,4 +1,3 @@
----
 $schema: http://json-schema.org/draft-07/schema#
 type: object
 patternProperties: 
@@ -8,8 +7,9 @@ patternProperties:
       write: 
         type: boolean
       read:
-      type: boolean
+        type: boolean
     required:
       - write
       - read
+    additionalProperties: false
 additionalProperties: false
