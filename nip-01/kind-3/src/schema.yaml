@@ -10,7 +10,7 @@ properties:
     $ref: "#/$defs/secp256k1"
   kind:
     type: number
-    const: 3
+    const: "3"
   pubkey:
     $ref: "#/$defs/secp256k1"
   sig:
