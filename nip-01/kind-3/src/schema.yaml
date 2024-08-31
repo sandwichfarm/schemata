@@ -1,4 +1,5 @@
 $schema: http://json-schema.org/draft-07/schema#
+title: kind3
 type: object
 properties:
   content:
@@ -8,7 +9,8 @@ properties:
   id:
     $ref: "#/$defs/secp256k1"
   kind:
-    type: integer
+    type: number
+    const: 3
   pubkey:
     $ref: "#/$defs/secp256k1"
   sig:
