@@ -7,10 +7,12 @@ const args = process.argv.slice(2);
 const input = args[0];
 const output = args[1];
 
-const schema = await import(path.resolve(input));
-
 try {
+    const schemaData = await fs.readFile(path.resolve(input), 'utf-8');
+    const schema = JSON.parse(schemaData);
+    
     const dereferencedSchema = await $RefParser.dereference(schema);
+    
     await fs.writeFile(output, JSON.stringify(dereferencedSchema, null, 2), 'utf-8');
     console.log(`Schema written to ${output}`);
 } catch (err) {
