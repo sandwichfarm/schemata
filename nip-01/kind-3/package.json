@@ -30,8 +30,8 @@
     "build:test": "yarn build && yarn test",
 
     "convert": "yarn convert:note && yarn convert:content",
-    "convert:note": "yaml-convert -i src/schema.yaml -o dist/schema.json",
-    "convert:content": "yaml-convert -i src/schema.content.yaml -o dist/schema.content.json",
+    "convert:note": "mkdir -p dist && yaml-convert -i src/schema.yaml -o dist/schema.json",
+    "convert:content": "mkdir -p dist && yaml-convert -i src/schema.content.yaml -o dist/schema.content.json",
 
     "packages": "yarn qt && yarn qt2",
     
