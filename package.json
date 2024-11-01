@@ -1,18 +1,22 @@
 {
   "name": "@nostrability/schemata-nip01-kind3",
   "version": "0.0.1",
+  "type": "module",
   "main": "dist/bundle.js",
   "license": "MIT",
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^11.7.2",
     "ajv": "8.17.1",
+    "esbuild": "^0.24.0",
+    "esbuild-yaml": "^1.2.0",
+    "json-loader": "0.5.7",
     "quicktype": "23.0.170",
     "quicktype-core": "23.0.170",
-    "yaml": "2.4.5",
-    "json-loader": "0.5.7",
     "webpack": "5.93.0",
     "webpack-cli": "5.1.4",
     "webpack-merge": "6.0.1",
     "webpack-node-externals": "3.0.0",
+    "yaml": "2.4.5",
     "yaml-convert": "1.0.1"
   },
   "devDependencies": {
@@ -25,16 +29,13 @@
   },
   "scripts": {
     "clean": "git clean -df",
-    "build": "yarn clean && yarn convert",
+    "build": "make",
     "build:all": "yarn build && yarn packages",
     "build:test": "yarn build && yarn test",
-
     "convert": "yarn convert:note && yarn convert:content",
-    "convert:note": "yaml-convert -i src/schema.yaml -o dist/schema.json",
-    "convert:content": "yaml-convert -i src/schema.content.yaml -o dist/schema.content.json",
-
+    "convert:note": "mkdir -p dist && yaml-convert -i src/schema.yaml -o dist/schema.json",
+    "convert:content": "mkdir -p dist && yaml-convert -i src/schema.content.yaml -o dist/schema.content.json",
     "packages": "yarn qt && yarn qt2",
-    
     "qt": "yarn convert && yarn qt:rust && yarn qt:python && yarn qt:swift && yarn qt:kotlin && yarn qt:java && yarn qt:go && yarn qt:js && yarn qt:ts && yarn qt:ts-types && yarn qt:ts-zod",
     "qt:swift": "quicktype ./dist/schema.json --out ./dist/kind-3.swift --src-lang schema --lang swift",
     "qt:kotlin": "quicktype ./dist/schema.json --out ./dist/kind-3.kt --src-lang schema --lang kotlin",
@@ -46,7 +47,6 @@
     "qt:ts-types": "quicktype ./dist/schema.json --out ./dist/kind-3.d.ts --src-lang schema --lang ts --just-types",
     "qt:ts-zod": "quicktype ./dist/schema.json --out ./dist/kind-3.zod.ts --src-lang schema --lang typescript-zod",
     "qt:js": "quicktype ./dist/schema.json --out ./dist/kind-3.js --src-lang schema --lang js",
-
     "qt2": "yarn convert && yarn qt2:rust && yarn qt2:python && yarn qt2:swift && yarn qt2:kotlin && yarn qt:java && yarn qt:go && yarn qt2:ts && yarn qt2:ts-types && yarn qt2:ts-zod && yarn qt2:js",
     "qt2:swift": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.swift --src-lang schema --lang swift",
     "qt2:kotlin": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.kt --src-lang schema --lang kotlin",
@@ -54,11 +54,10 @@
     "qt2:rust": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.rs --src-lang schema --lang rust",
     "qt2:python": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.py --src-lang schema --lang python",
     "qt2:go": "quicktype ./dist/schema.content.json --out ./dist/kind-3.content.go --src-lang schema --lang go",
-    "qt2:ts": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.ts --src-lang schema --lang ts --converters all-objects" ,
+    "qt2:ts": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.ts --src-lang schema --lang ts --converters all-objects",
     "qt2:ts-types": "quicktype ./dist/schema.json --out ./dist/kind-3.content.d.ts --src-lang schema --lang ts --just-types",
     "qt2:ts-zod": "quicktype ./dist/schema.content.json --out ./dist/kind-3.content.zod.ts --src-lang schema --lang typescript-zod",
     "qt2:js": "quicktype ./dist/schema.content.json -o ./dist/kind-3.content.js --src-lang schema --lang js",
-
     "test": "node test.js",
     "docs": "typedoc"
   },
