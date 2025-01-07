@@ -7,12 +7,12 @@ properties:
   created_at:
     type: integer
   id:
-    $ref: "#/$defs/secp256k1"
+    $ref: "nips/nipless/secp256k1/schema.yaml"
   kind:
     type: number
     const: "3"
   pubkey:
-    $ref: "#/$defs/secp256k1"
+    $ref: "nips/nipless/secp256k1/schema.yaml"
   sig:
     type: string
   tags:
@@ -24,7 +24,7 @@ properties:
       items: 
         - type: string
           const: "p"
-        - $ref: "#/$defs/secp256k1"
+        - $ref: "nips/nipless/secp256k1/schema.yaml"
       additionalItems: false
 required:
   - content
@@ -35,7 +35,3 @@ required:
   - sig
   - tags
 additionalProperties: false
-$defs:
-  secp256k1: 
-    type: string
-    pattern: "^[a-f0-9]{64}$"

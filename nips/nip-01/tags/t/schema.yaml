@@ -1,0 +1,10 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+allOf:
+  - $ref: "nips/nip-01/tag/schema.yaml"
+  - type: array
+    minItems: 2
+    items:
+      - const: "t"
+      - type: string
+    additionalItems:
+      type: string

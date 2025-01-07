@@ -1,5 +1,5 @@
 ---
-"$schema": http://json-schema.org/draft-04/schema#
+"$schema": http://json-schema.org/draft-07/schema#
 type: object
 properties:
   content:
@@ -17,9 +17,7 @@ properties:
   tags:
     type: array
     items:
-    - type: array
-      items:
-      - type: string
+    - $ref: "nips/nip-01/tag/schema.yaml"
       
 required:
 - content
