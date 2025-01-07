@@ -2,7 +2,7 @@
 
 # Directories
 NIPS_DIR := nips
-ALIASES_DIR := aliases
+ALIASES_DIR := "@"
 DIST_DIR := dist
 
 # Tools
@@ -10,9 +10,10 @@ YAMLCONVERT := yaml-convert
 DEREF_SCRIPT := node $(realpath scripts/deref.js)
 
 # Files
-SCHEMA_YAMLS := $(shell find $(NIPS_DIR) -type f -name "schema.yaml")
-ALIAS_YAMLS := $(shell find $(ALIASES_DIR) -type f -name "schema.yaml")
-JSON_SCHEMAS := $(patsubst %.yaml,$(DIST_DIR)/%.json,$(SCHEMA_YAMLS) $(ALIAS_YAMLS))
+SCHEMA_YAMLS := $(shell find $(NIPS_DIR) -type f -name "*.yaml")
+ALIAS_YAMLS := $(shell find $(ALIASES_DIR) -type f -name "*.yaml")
+ALL_YAMLS := $(SCHEMA_YAMLS) $(ALIAS_YAMLS)
+JSON_SCHEMAS := $(patsubst %.yaml,$(DIST_DIR)/%.json,$(ALL_YAMLS))
 
 # Default target
 all: convert_json dereference_json

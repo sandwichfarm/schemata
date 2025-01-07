@@ -1,37 +1,3 @@
 $schema: http://json-schema.org/draft-07/schema#
 title: kind3
-type: object
-properties:
-  content:
-    type: string
-  created_at:
-    type: integer
-  id:
-    $ref: "nips/nipless/secp256k1/schema.yaml"
-  kind:
-    type: number
-    const: "3"
-  pubkey:
-    $ref: "nips/nipless/secp256k1/schema.yaml"
-  sig:
-    type: string
-  tags:
-    type: array
-    items:
-      type: array
-      minItems: 2
-      maxItems: 2
-      items: 
-        - type: string
-          const: "p"
-        - $ref: "nips/nipless/secp256k1/schema.yaml"
-      additionalItems: false
-required:
-  - content
-  - created_at
-  - id
-  - kind
-  - pubkey
-  - sig
-  - tags
-additionalProperties: false
+allOf: "@/note.yaml"

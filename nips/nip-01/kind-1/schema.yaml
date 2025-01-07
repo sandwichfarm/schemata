@@ -1,31 +1,4 @@
 ---
 "$schema": http://json-schema.org/draft-04/schema#
-type: object
-properties:
-  content:
-    type: string
-  created_at:
-    type: integer
-  id:
-    $ref: "nips/nipless/secp256k1/schema.yaml"
-  kind:
-    type: integer
-  pubkey:
-    $ref: "nips/nipless/secp256k1/schema.yaml"
-  sig:
-    type: string
-  tags:
-    type: array
-    items:
-    - type: array
-      items:
-      - type: string
-      
-required:
-- content
-- created_at
-- id
-- kind
-- pubkey
-- sig
-- tags
+title: kind1
+allOf: "@/note.yaml"
