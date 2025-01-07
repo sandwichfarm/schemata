@@ -4,7 +4,7 @@ allOf:
   - type: array
     minItems: 2
     items:
-      - const: "t"
-      - type: string
+      - const: "p"
+      - $ref: "@/secp256k1.yaml"
     additionalItems:
       type: string

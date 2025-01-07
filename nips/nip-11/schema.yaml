@@ -1,0 +1,267 @@
+---
+"$id": https://nip11.schemata.nostr.watch
+"$schema": http://json-schema.org/draft-07/schema#
+title: NIP-11
+type: object
+properties:
+  name:
+    type: string
+  description:
+    type: string
+  pubkey:
+    $ref: "@/secp256k1.yaml"
+  contact:
+    type: string
+  supported_nips:
+    type: array
+    items:
+      type: number
+  software:
+    type: string
+  version:
+    type: string
+  retention:
+    type: array
+    items:
+      type: object
+      properties:
+        kinds:
+          type: array
+          items:
+            anyOf:
+            - type: number
+            - type: array
+              items:
+                type: number
+        count:
+          type: number
+        time:
+          type: number
+      required:
+      - kinds
+      - count
+      - time
+  relay_country:
+    type: array
+    items:
+      type: string
+  icon:
+    type: string
+    pattern: "^https?://"
+  language_tags:
+    type: array
+    items:
+      type: string
+  tags:
+    type: array
+    items:
+      type: string
+  posting_policy:
+    type: string
+    pattern: "^https?://"
+  limitation:
+    type: object
+    properties:
+      max_message_length:
+        type: number
+      max_subscriptions:
+        type: number
+      max_filters:
+        type: number
+      max_limit:
+        type: number
+      max_subid_length:
+        type: number
+      max_event_tags:
+        type: number
+      max_content_length:
+        type: number
+      min_pow_difficulty:
+        type: number
+      auth_required:
+        type: booleand
+      payment_required:
+        type: boolean
+      restricted_writes:
+        type: boolean
+      created_at_lower_limit:
+        type: number
+      created_at_upper_limit:
+        type: number
+    required:
+    - max_message_length
+    - max_subscriptions
+    - max_filters
+    - max_limit
+    - max_subid_length
+    - max_event_tags
+    - max_content_length
+    - min_pow_difficulty
+    - auth_required
+    - payment_required
+    - restricted_writes
+    - created_at_lower_limit
+    - created_at_upper_limit
+  payments_url:
+    type: string
+    pattern: "^https?://"
+  fees:
+    type: object
+    properties:
+      admission:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              type: number
+            unit:
+              type: string
+            period:
+              type: number
+            kinds:
+              type: array
+              items:
+                type: number
+          required:
+          - amount
+          - unit
+          - period
+          - kinds
+      subscription:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              type: number
+            unit:
+              type: string
+            period:
+              type: number
+            kinds:
+              type: array
+              items:
+                type: number
+          required:
+          - amount
+          - unit
+          - period
+          - kinds
+      publication:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              type: number
+            unit:
+              type: string
+            period:
+              type: number
+            kinds:
+              type: array
+              items:
+                type: number
+          required:
+          - amount
+          - unit
+          - period
+          - kinds
+    additionalProperties: false
+required:
+- name
+- description
+- pubkey
+- contact
+- supported_nips
+- software
+- version
+- retention
+- relay_country
+- icon
+- language_tags
+- tags
+- posting_policy
+- limitation
+- payments_url
+- fees
+allOf:
+- if:
+    properties:
+      limitation:
+        properties:
+          payment_required:
+            const: true
+        required:
+        - payment_required
+    required:
+    - limitation
+  then:
+    properties:
+      fees:
+        anyOf:
+        - properties:
+            admission:
+              type: array
+              minItems: 1
+          required:
+          - admission
+        - properties:
+            subscription:
+              type: array
+              minItems: 1
+          required:
+          - subscription
+        - properties:
+            publication:
+              type: array
+              minItems: 1
+          required:
+          - publication
+    required:
+    - fees
+"$defs":
+  saneUrl:
+    type: string
+    pattern: "^https?://"
+  fee:
+    type: array
+    items:
+      type: object
+      properties:
+        amount:
+          type: number
+        unit:
+          type: string
+        period:
+          type: number
+        kinds:
+          type: array
+          items:
+            type: number
+      required:
+      - amount
+      - unit
+      - period
+      - kinds
+  retent:
+    type: object
+    properties:
+      kinds:
+        type: array
+        items:
+          anyOf:
+          - type: number
+          - type: array
+            items:
+              type: number
+      count:
+        type: number
+      time:
+        type: number
+    required:
+    - kinds
+    - count
+    - time
+additionalProperties: false
