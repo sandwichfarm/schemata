@@ -7,7 +7,7 @@ DIST_DIR := dist
 
 # Tools
 YAMLCONVERT := yaml-convert
-DEREF_SCRIPT := node scripts/deref.js
+DEREF_SCRIPT := node $(realpath scripts/deref.js)
 
 # Files
 SCHEMA_YAMLS := $(shell find $(NIPS_DIR) -type f -name "schema.yaml")
@@ -26,14 +26,15 @@ $(DIST_DIR)/%.json: %.yaml
 
 # Target to convert all YAML files to JSON
 .PHONY: convert_json
-dereference_json: convert_json
-
 convert_json: FORCE $(JSON_SCHEMAS)
 
 # Rule to dereference JSON files
-dereference_json:
+.PHONY: dereference_json
+dereference_json: convert_json
 	@echo "Dereferencing JSON schemas"
-	@for json_file in $(JSON_SCHEMAS); do \
+	@cd $(DIST_DIR) && \
+	for json_file in $(patsubst $(DIST_DIR)/%,%,$(JSON_SCHEMAS)); do \
+		echo "Processing: $$json_file with script: $(DEREF_SCRIPT)"; \
 		$(DEREF_SCRIPT) $$json_file $$json_file; \
 	done
 
