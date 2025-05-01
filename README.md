@@ -33,9 +33,9 @@ validateMany(events: NostrEvent[]): NSchemaResult[]
 
 ### Setup 
 1. Fork the repo.
-2. `npm/yarn/pnpm install` 
-3. `npm/yarn/pnpm build`
-4. `npm/yarn/pnpm test`
+2. `pnpm install` 
+3. `pnpm build`
+4. `pnpm test`
 
 ## Writing Schemas
 Familiarize yourself with the aliases section and the file structure.
