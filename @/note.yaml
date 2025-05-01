@@ -1,1 +1,2 @@
-allOf: "nips/nip-01/note/schema.yaml"
+allOf: 
+  - $ref: "nips/nip-01/note/schema.yaml"

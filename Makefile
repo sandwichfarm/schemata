@@ -1,50 +1,52 @@
-# Makefile to process YAML schemas in the nips directory
+# Makefile that converts all *.yaml in nips/ and @ -> dist/,
+# rewrites references to absolute paths, then dereferences them.
 
-# Directories
 NIPS_DIR := nips
-ALIASES_DIR := "@"
+ALIASES_DIR := @
 DIST_DIR := dist
 
-# Tools
 YAMLCONVERT := yaml-convert
+REWRITE_SCRIPT := node $(realpath scripts/rewriteRefs.js)
 DEREF_SCRIPT := node $(realpath scripts/deref.js)
 
-# Files
 SCHEMA_YAMLS := $(shell find $(NIPS_DIR) -type f -name "*.yaml")
-ALIAS_YAMLS := $(shell find $(ALIASES_DIR) -type f -name "*.yaml")
-ALL_YAMLS := $(SCHEMA_YAMLS) $(ALIAS_YAMLS)
+ALIAS_YAMLS  := $(shell find $(ALIASES_DIR) -type f -name "*.yaml")
+ALL_YAMLS    := $(SCHEMA_YAMLS) $(ALIAS_YAMLS)
+
 JSON_SCHEMAS := $(patsubst %.yaml,$(DIST_DIR)/%.json,$(ALL_YAMLS))
 
-# Default target
-all: convert_json dereference_json
+all: convert_json rewrite_refs dereference_json
 
-# Rule to convert YAML to JSON
 $(DIST_DIR)/%.json: %.yaml
-	@echo "Converting $< to $@"
+	@echo "Converting $< -> $@"
 	@mkdir -p $(dir $@)
 	@$(YAMLCONVERT) $< > $@
-	@sed -i '' 's/\.yaml/.json/g' $@ || sed -i 's/\.yaml/.json/g' $@
+	@sed -i.bak 's/\.yaml/.json/g' $@ && rm $@.bak
 
-# Target to convert all YAML files to JSON
 .PHONY: convert_json
 convert_json: FORCE $(JSON_SCHEMAS)
 
-# Rule to dereference JSON files
-.PHONY: dereference_json
-dereference_json: convert_json
-	@echo "Dereferencing JSON schemas"
+.PHONY: rewrite_refs
+rewrite_refs: convert_json
+	@echo "Rewriting references in dist/..."
 	@cd $(DIST_DIR) && \
-	for json_file in $(patsubst $(DIST_DIR)/%,%,$(JSON_SCHEMAS)); do \
-		echo "Processing: $$json_file with script: $(DEREF_SCRIPT)"; \
-		$(DEREF_SCRIPT) $$json_file $$json_file; \
+	for f in $(patsubst $(DIST_DIR)/%,%,$(JSON_SCHEMAS)); do \
+		echo " -> rewriting $$f"; \
+		$(REWRITE_SCRIPT) $$f $$f; \
 	done
 
-# Clean up all generated JSON files
+.PHONY: dereference_json
+dereference_json: rewrite_refs
+	@echo "Dereferencing JSON schemas in dist/..."
+	@cd $(DIST_DIR) && \
+	for f in $(patsubst $(DIST_DIR)/%,%,$(JSON_SCHEMAS)); do \
+		echo " -> dereferencing $$f"; \
+		$(DEREF_SCRIPT) $$f $$f; \
+	done
+
 .PHONY: clean
 clean:
-	@echo "Cleaning up generated JSON schemas"
 	@rm -rf $(DIST_DIR)
 
-# Force target to always run
 .PHONY: FORCE
 FORCE:
